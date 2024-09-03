@@ -17,24 +17,16 @@ function PasswordField(props) {
         event.preventDefault();
     };
 
-    const { name, label } = props;
+    const { name, ...rest } = props;
     const { methods } = useFormContext();
     const { errors } = methods.formState
 
     return (
         <TextField
-            {...methods.register(name, {
-                required: `${label} is required`,
-                pattern: {
-                    value:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message:
-                        "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character",
-                },
-            })} id={`id-${name}`}
+            {...methods.register(name)}
+            id={`id-${name}`}
             error={!!errors[name]}
             helperText={errors[name] ? errors[name].message : ""}
-
             variant="outlined"
             placeholder="8+ charatcers"
             type={showPassword ? "text" : "password"}
@@ -57,7 +49,7 @@ function PasswordField(props) {
                     ),
                 },
             }}
-            {...props}
+            {...rest}
         // InputProps={{
         //     endAdornment: (
         //         <InputAdornment position="end">
